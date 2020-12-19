@@ -48,12 +48,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void _Move()
     {
-        
-            
+        if (isGrounded)
+        {
+
             if (Input.GetAxisRaw("Horizontal") > 0.0f)
             {
                 // move right
-                body.velocity += playerCam.transform.right * speed * Time.deltaTime;
+                body.velocity += playerCam.transform.right * speed *Time.deltaTime;
             }
 
             else if (Input.GetAxisRaw("Horizontal") < 0.0f)
@@ -65,34 +66,31 @@ public class PlayerBehaviour : MonoBehaviour
             if (Input.GetAxisRaw("Vertical") > 0.0f)
             {
                 // move forward
-                body.velocity += playerCam.transform.forward * speed * Time.deltaTime;
+                body.velocity += playerCam.transform.forward * speed *  Time.deltaTime;
             }
 
             else if (Input.GetAxisRaw("Vertical") < 0.0f)
             {
                 // move Back
-                body.velocity += -playerCam.transform.forward * speed * Time.deltaTime;
+                body.velocity += -playerCam.transform.forward * speed *  Time.deltaTime;
             }
-
+       
 
         // remove y
         
 
-        
-        body.velocity.y += -speed * 0.0000001f;
-        if (isGrounded)
-        {
             body.velocity = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
-
+            
             if (Input.GetAxisRaw("Jump") > 0.0f)
             {
-                body.velocity.z += transform.up * speed * 0.1f * Time.deltaTime;
+                body.velocity += body.transform.up * speed * Time.deltaTime;
                 
             }
-
+            body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, 0.95f);
         }
 
-        body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, 0.95f);
+       
+        
         transform.position += body.velocity;
 
     }

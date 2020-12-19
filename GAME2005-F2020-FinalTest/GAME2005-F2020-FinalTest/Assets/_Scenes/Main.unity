@@ -647,6 +647,7 @@ MonoBehaviour:
   bulletManager: {fileID: 403008322}
   speed: 100
   isGrounded: 0
+  isColliding: 0
   body: {fileID: 579480856}
   cube: {fileID: 579480855}
   playerCam: {fileID: 580202292}
