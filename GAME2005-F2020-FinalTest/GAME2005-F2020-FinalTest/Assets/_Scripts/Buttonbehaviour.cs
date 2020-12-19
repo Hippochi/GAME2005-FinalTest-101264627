@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public class Buttonbehaviour : MonoBehaviour
 {
-    
-
     // Start is called before the first frame update
-    void Start()
+    public void StartMenu()
     {
-        
+        SceneManager.LoadScene("Open Screen");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadGame()
     {
-       
+        SceneManager.LoadScene("Main");
+        
     }
 }

@@ -63,11 +63,13 @@ public class CubeBehaviour : MonoBehaviour
     private MeshFilter meshFilter;
     public Bounds bounds;
     public bool isGrounded;
+    public bool teemoexists;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        teemoexists = true;
         debug = false;
         meshFilter = GetComponent<MeshFilter>();
 

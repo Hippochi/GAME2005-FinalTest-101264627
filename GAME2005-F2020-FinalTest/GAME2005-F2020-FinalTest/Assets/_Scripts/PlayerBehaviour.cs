@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Movement")]
     public float speed;
     public bool isGrounded;
+    public bool isColliding;
 
 
     public RigidBody3D body;
@@ -29,49 +31,70 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _scene();
         _Fire();
         _Move();
     }
 
+    private void _scene()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+
+            SceneManager.LoadScene("Open Screen");
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
     private void _Move()
     {
-        if (isGrounded)
-        {
+        
+            
             if (Input.GetAxisRaw("Horizontal") > 0.0f)
             {
                 // move right
-                body.velocity = playerCam.transform.right * speed * Time.deltaTime;
+                body.velocity += playerCam.transform.right * speed * Time.deltaTime;
             }
 
-            if (Input.GetAxisRaw("Horizontal") < 0.0f)
+            else if (Input.GetAxisRaw("Horizontal") < 0.0f)
             {
                 // move left
-                body.velocity = -playerCam.transform.right * speed * Time.deltaTime;
+                body.velocity += -playerCam.transform.right * speed * Time.deltaTime;
             }
 
             if (Input.GetAxisRaw("Vertical") > 0.0f)
             {
                 // move forward
-                body.velocity = playerCam.transform.forward * speed * Time.deltaTime;
+                body.velocity += playerCam.transform.forward * speed * Time.deltaTime;
             }
 
-            if (Input.GetAxisRaw("Vertical") < 0.0f) 
+            else if (Input.GetAxisRaw("Vertical") < 0.0f)
             {
                 // move Back
-                body.velocity = -playerCam.transform.forward * speed * Time.deltaTime;
+                body.velocity += -playerCam.transform.forward * speed * Time.deltaTime;
             }
 
-            body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, 0.9f);
-            body.velocity = new Vector3(body.velocity.x, 0.0f, body.velocity.z); // remove y
-            
+
+        // remove y
+        
+
+        
+        body.velocity.y += -speed * 0.0000001f;
+        if (isGrounded)
+        {
+            body.velocity = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
 
             if (Input.GetAxisRaw("Jump") > 0.0f)
             {
-                body.velocity = transform.up * speed * 0.1f * Time.deltaTime;
+                body.velocity.z += transform.up * speed * 0.1f * Time.deltaTime;
+                
             }
 
-            transform.position += body.velocity;
         }
+
+        body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, 0.95f);
+        transform.position += body.velocity;
+
     }
 
 
@@ -97,6 +120,11 @@ public class PlayerBehaviour : MonoBehaviour
     private void GroundCheck()
     {
         isGrounded = cube.isGrounded;
+    }
+
+    private void collideChecker()
+    {
+        isColliding = cube.isColliding;
     }
 
 }
