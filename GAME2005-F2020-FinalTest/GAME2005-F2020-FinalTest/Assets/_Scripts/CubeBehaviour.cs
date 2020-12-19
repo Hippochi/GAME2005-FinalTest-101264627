@@ -10,6 +10,7 @@ public class Contact : IEquatable<Contact>
     public CubeBehaviour cube;
     public Vector3 face;
     public float penetration;
+    
 
     public Contact(CubeBehaviour cube)
     {
@@ -59,11 +60,13 @@ public class CubeBehaviour : MonoBehaviour
     public bool isColliding;
     public bool debug;
     public List<Contact> contacts;
+    public CubeBehaviour cube;
 
     private MeshFilter meshFilter;
     public Bounds bounds;
     public bool isGrounded;
     public bool teemoexists;
+    public Contact touchContact;
 
 
     // Start is called before the first frame update
@@ -85,6 +88,8 @@ public class CubeBehaviour : MonoBehaviour
         min = Vector3.Scale(bounds.min, transform.localScale) + transform.position;
 
     }
+
+   
 
     private void OnDrawGizmos()
     {

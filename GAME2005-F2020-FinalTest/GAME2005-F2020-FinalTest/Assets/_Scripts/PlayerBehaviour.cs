@@ -17,6 +17,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float speed;
     public bool isGrounded;
     public bool isColliding;
+    public Contact touchContact;
+    public CubeBehaviour steve;
 
 
     public RigidBody3D body;
@@ -31,6 +33,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        collideChecker();
         _scene();
         _Fire();
         _Move();
@@ -89,8 +92,31 @@ public class PlayerBehaviour : MonoBehaviour
             body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, 0.95f);
         }
 
-       
-        
+        if (isColliding)
+        {
+            if (touchContact.face.x < 0.0f)
+            {
+               if (body.velocity.x < 0.0f) { body.velocity.x = 0.0f; }
+
+            }
+
+            if (touchContact.face.x > 0.0f)
+            {
+                if (body.velocity.x > 0.0f) { body.velocity.x = 0.0f; }
+            }
+
+            if (touchContact.face.z < 0.0f)
+            {
+                if (body.velocity.z < 0.0f) { body.velocity.z = 0.0f; }
+            }
+
+            if (touchContact.face.z > 0.0f)
+            {
+                if (body.velocity.z > 0.0f) { body.velocity.z = 0.0f; }
+                
+            }
+        }
+    
         transform.position += body.velocity;
 
     }
@@ -123,6 +149,11 @@ public class PlayerBehaviour : MonoBehaviour
     private void collideChecker()
     {
         isColliding = cube.isColliding;
+        if (isColliding)
+        {
+            touchContact = cube.touchContact;
+        }
+        else { touchContact = null; }
     }
 
 }
